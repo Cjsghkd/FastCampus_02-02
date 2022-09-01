@@ -11,11 +11,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-class PlayListAdapter(private val callback : (MusicModel) -> Unit) : ListAdapter<MusicModel, PlayListAdapter.ViewHolder>(diffUtil) {
+class PlayListAdapter(private val callback: (MusicModel) -> Unit) :
+    ListAdapter<MusicModel, PlayListAdapter.ViewHolder>(diffUtil) {
 
-    inner class ViewHolder(private val view : View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
-        fun bind(item : MusicModel) {
+        fun bind(item: MusicModel) {
 
             val trackTextView = view.findViewById<TextView>(R.id.itemTrackTextView)
             val artistTextView = view.findViewById<TextView>(R.id.itemArtistTextView)
@@ -42,7 +43,9 @@ class PlayListAdapter(private val callback : (MusicModel) -> Unit) : ListAdapter
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_music, parent, false))
+        return ViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_music, parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

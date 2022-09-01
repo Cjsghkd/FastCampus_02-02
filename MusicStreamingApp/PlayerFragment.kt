@@ -20,9 +20,9 @@ import java.util.concurrent.TimeUnit
 
 class PlayerFragment : Fragment(R.layout.fragment_player) {
 
-    private var model : PlayerModel = PlayerModel()
-    private var binding : FragmentPlayerBinding? = null
-    private var player : SimpleExoPlayer? = null
+    private var model: PlayerModel = PlayerModel()
+    private var binding: FragmentPlayerBinding? = null
+    private var player: SimpleExoPlayer? = null
     private lateinit var playListAdapter: PlayListAdapter
 
     private val updateSeekRunable = Runnable {
@@ -45,7 +45,8 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
     }
 
     private fun initSeekBar(fragmentPlayerBinding: FragmentPlayerBinding) {
-        fragmentPlayerBinding.playerSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        fragmentPlayerBinding.playerSeekBar.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, p1: Int, p2: Boolean) {
 
             }
@@ -144,7 +145,7 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
         }
     }
 
-    private fun updateSeekUi(duration : Long, position : Long) {
+    private fun updateSeekUi(duration: Long, position: Long) {
         binding?.let { binding ->
 
             binding.playListSeekBar.max = (duration / 1000).toInt()
@@ -153,12 +154,16 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
             binding.playerSeekBar.max = (duration / 1000).toInt()
             binding.playerSeekBar.progress = (position / 1000).toInt()
 
-            binding.playTimeTextView.text = String.format("%02d:%02d",
+            binding.playTimeTextView.text = String.format(
+                "%02d:%02d",
                 TimeUnit.MINUTES.convert(position, TimeUnit.MILLISECONDS),
-                (position / 1000) % 60 )
-            binding.totalTimeTextView.text = String.format("%02d:%02d",
+                (position / 1000) % 60
+            )
+            binding.totalTimeTextView.text = String.format(
+                "%02d:%02d",
                 TimeUnit.MINUTES.convert(duration, TimeUnit.MILLISECONDS),
-                (duration / 1000) % 60 )
+                (duration / 1000) % 60
+            )
         }
     }
 
@@ -209,7 +214,10 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
             .also {
                 it.listMusics()
                     .enqueue(object : Callback<MusicDto> {
-                        override fun onResponse(call: Call<MusicDto>, response: Response<MusicDto>) {
+                        override fun onResponse(
+                            call: Call<MusicDto>,
+                            response: Response<MusicDto>
+                        ) {
                             Log.d("PlayerFragment", "${response.body()}")
                             response.body()?.let { musicDto ->
 
@@ -229,7 +237,7 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
             }
     }
 
-    private fun setMusicList(modelList : List<MusicModel>) {
+    private fun setMusicList(modelList: List<MusicModel>) {
         context?.let {
             player?.addMediaItems(modelList.map { musicModel ->
                 MediaItem.Builder()
@@ -264,7 +272,7 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
     }
 
     companion object {
-        fun newInstance() : PlayerFragment {
+        fun newInstance(): PlayerFragment {
             return PlayerFragment()
         }
     }
