@@ -6,6 +6,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.musicstreamingapp.databinding.FragmentPlayerBinding
 import com.example.musicstreamingapp.service.MusicDto
 import com.example.musicstreamingapp.service.MusicService
@@ -17,8 +18,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class PlayerFragment : Fragment(R.layout.fragment_player) {
 
+    private var model : PlayerModel = PlayerModel()
     private var binding : FragmentPlayerBinding? = null
-    private var isWatchingPlayListView = true
     private var player : SimpleExoPlayer? = null
     private lateinit var playListAdapter: PlayListAdapter
 
@@ -49,11 +50,13 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
         }
 
         fragmentPlayerBinding.skipNextImageView.setOnClickListener {
-
+            val nextMusic = model.nextMusic() ?: return@setOnClickListener
+            playMusic(nextMusic)
         }
 
         fragmentPlayerBinding.skipPrevImageView.setOnClickListener {
-
+            val prevMusic = model.prevMusic() ?: return@setOnClickListener
+            playMusic(prevMusic)
         }
     }
 
@@ -78,15 +81,35 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
                     }
                 }
 
+                override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+                    super.onMediaItemTransition(mediaItem, reason)
 
+                    val newIndex = mediaItem?.mediaId ?: return
+                    model.currentPosition = newIndex.toInt()
+                    updatePlayerView(model.currentMusicModel())
 
+                    playListAdapter.submitList(model.getAdapterModels())
+                }
             })
+        }
+    }
+
+    private fun updatePlayerView(currentMusicModel: MusicModel?) {
+        currentMusicModel ?: return
+
+        binding?.let { binding ->
+            binding.trackTextView.text = currentMusicModel.track
+            binding.artistTextView.text = currentMusicModel.artist
+            Glide.with(binding.coverImageView.context)
+                .load(currentMusicModel.coverUrl)
+                .into(binding.coverImageView)
         }
     }
 
     private fun initRecyclerView(fragmentPlayerBinding: FragmentPlayerBinding) {
         playListAdapter = PlayListAdapter {
             // todo 음악을 재생
+            playMusic(it)
         }
 
         fragmentPlayerBinding.playListRecyclerView.apply {
@@ -99,10 +122,12 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
     private fun initPlayListButton(fragmentPlayerBinding: FragmentPlayerBinding) {
         fragmentPlayerBinding.playlistImageView.setOnClickListener {
             // todo 만약에 서버에서 데이터가 다 불러오지 않은 상태 일 때
-            fragmentPlayerBinding.playerViewGroup.isVisible = isWatchingPlayListView
-            fragmentPlayerBinding.playerListGroup.isVisible = isWatchingPlayListView.not()
+            if (model.currentPosition == -1) return@setOnClickListener
 
-            isWatchingPlayListView = !isWatchingPlayListView
+            fragmentPlayerBinding.playerViewGroup.isVisible = model.isWatchingPlayListView
+            fragmentPlayerBinding.playerListGroup.isVisible = model.isWatchingPlayListView.not()
+
+            model.isWatchingPlayListView = !model.isWatchingPlayListView
         }
     }
 
@@ -118,19 +143,18 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
                     .enqueue(object : Callback<MusicDto> {
                         override fun onResponse(call: Call<MusicDto>, response: Response<MusicDto>) {
                             Log.d("PlayerFragment", "${response.body()}")
+                            response.body()?.let { musicDto ->
 
-                            response.body()?.let {
-                                val modelList = it.musics.mapIndexed { index, musicEntity ->
-                                    musicEntity.mapper(index.toLong())
-                                }
 
-                                setMusicList(modelList)
-                                playListAdapter.submitList(modelList)
+                                model = musicDto.mapper()
+
+                                setMusicList(model.getAdapterModels())
+                                playListAdapter.submitList(model.getAdapterModels())
                             }
                         }
 
                         override fun onFailure(call: Call<MusicDto>, t: Throwable) {
-
+                            Log.d("failed", "실패함")
                         }
 
                     })
@@ -147,9 +171,13 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
             })
 
             player?.prepare()
-            player?.play()
         }
+    }
 
+    private fun playMusic(musicModel: MusicModel) {
+        model.updateCurrentPosition(musicModel)
+        player?.seekTo(model.currentPosition, 0)
+        player?.play()
     }
 
     companion object {
