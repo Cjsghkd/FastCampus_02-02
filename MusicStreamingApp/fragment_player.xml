@@ -10,14 +10,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        tools:visibility="visible"
-        app:constraint_referenced_ids="trackTextView, artistTextView, coverImageCardView, bottomBackgroundView, playerSeekBar, playTimeTextView, totalTimeTextView"/>
+        app:constraint_referenced_ids="trackTextView, artistTextView, coverImageCardView, bottomBackgroundView, playerSeekBar, playTimeTextView, totalTimeTextView"
+        tools:visibility="visible" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/playerListGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="titleTextView, playListRecyclerView, playListSeekBar"/>
+        app:constraint_referenced_ids="titleTextView, playListRecyclerView, playListSeekBar" />
 
     <View
         android:id="@+id/topBackgroundView"
@@ -27,7 +27,7 @@
         app:layout_constraintBottom_toTopOf="@id/bottomBackgroundView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" 
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_weight="3" />
 
     <View
