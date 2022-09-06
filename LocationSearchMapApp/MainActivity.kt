@@ -18,6 +18,8 @@ class MainActivity : AppCompatActivity() {
 
         initAdapter()
         initView()
+        initData()
+        setData()
     }
 
     private fun initView() = with(binding) {
@@ -26,8 +28,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initAdapter() {
-        adapter = SearchRecyclerAdapter {
-            Toast.makeText(this, "아이템 클릭", Toast.LENGTH_SHORT).show()
+        adapter = SearchRecyclerAdapter()
+    }
+
+    private fun initData() {
+        adapter.notifyDataSetChanged()
+    }
+
+    private fun setData() {
+        var dataList = (0..10).map {
+            SearchResultEntity(
+                name = "빌딩 $it",
+                fullAdress = "주소 $it",
+                locationLatLng = LocationLatLngEntity(
+                    it.toFloat(),
+                    it.toFloat()
+                )
+            )
+        }
+        adapter.setSearchResultList(dataList) {
+            Toast.makeText(this, "할당이름 : ${it.name}, 주소 : ${it.fullAdress}", Toast.LENGTH_SHORT).show()
         }
     }
 
