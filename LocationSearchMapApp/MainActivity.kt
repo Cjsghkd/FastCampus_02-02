@@ -8,8 +8,8 @@ import com.example.locationsearchmapapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityMainBinding
-    private lateinit var adapter : SearchRecyclerAdapter
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var adapter: SearchRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +47,8 @@ class MainActivity : AppCompatActivity() {
             )
         }
         adapter.setSearchResultList(dataList) {
-            Toast.makeText(this, "할당이름 : ${it.name}, 주소 : ${it.fullAdress}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "할당이름 : ${it.name}, 주소 : ${it.fullAdress}", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 

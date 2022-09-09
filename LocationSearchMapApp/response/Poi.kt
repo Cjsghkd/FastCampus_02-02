@@ -1,6 +1,6 @@
 package com.example.locationsearchmapapp.response
 
-data class Poi (
+data class Poi ( // POI에서 사용할 수 있는 변수 모음
     //POI 의 id
     val id : String? = null,
 
