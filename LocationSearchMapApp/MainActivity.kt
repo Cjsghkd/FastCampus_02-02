@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         var dataList = (0..10).map {
             SearchResultEntity(
                 name = "빌딩 $it",
-                fullAdress = "주소 $it",
+                fullAddress = "주소 $it",
                 locationLatLng = LocationLatLngEntity(
                     it.toFloat(),
                     it.toFloat()
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
             )
         }
         adapter.setSearchResultList(dataList) {
-            Toast.makeText(this, "할당이름 : ${it.name}, 주소 : ${it.fullAdress}", Toast.LENGTH_SHORT)
+            Toast.makeText(this, "할당이름 : ${it.name}, 주소 : ${it.fullAddress}", Toast.LENGTH_SHORT)
                 .show()
         }
     }
