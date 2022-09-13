@@ -5,8 +5,11 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.core.view.isVisible
 import com.example.locationsearchmapapp.databinding.ActivityMainBinding
+import kotlinx.coroutines.Job
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var job : Job
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: SearchRecyclerAdapter
