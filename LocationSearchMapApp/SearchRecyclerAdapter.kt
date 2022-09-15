@@ -39,6 +39,7 @@ class SearchRecyclerAdapter : RecyclerView.Adapter<SearchRecyclerAdapter.SearchR
     fun setSearchResultList(searchResultList : List<SearchResultEntity>, searchResultClickListener: (SearchResultEntity) -> Unit) {
         this.searchResultList = searchResultList
         this.searchResultClickListener = searchResultClickListener
+        notifyDataSetChanged()
     }
 
 }
