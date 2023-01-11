@@ -1,6 +1,8 @@
 package com.example.finedustapp.data
 
 import com.example.finedustapp.BuildConfig
+import com.example.finedustapp.data.models.airquality.AirQualityResponse
+import com.example.finedustapp.data.models.airquality.AirQualityResponse.Response.Body.MeasuredValue
 import com.example.finedustapp.data.models.monitoringstation.MonitoringStationsResponse
 import com.example.finedustapp.data.models.monitoringstation.MonitoringStationsResponse.Response.Body.MonitoringStation
 import com.example.finedustapp.data.services.AirKoreaApiService
@@ -30,6 +32,16 @@ object Repository {
             ?.monitoringStations
             ?.minByOrNull { it?.tm ?: Double.MAX_VALUE }
 
+    }
+
+    suspend fun getLatestAirQualityData(stationName: String): MeasuredValue? {
+        return airKoreaApiService
+            .getRealtimeAirQualties(stationName)
+            .body()
+            ?.response
+            ?.body
+            ?.measuredValues
+            ?.firstOrNull()
     }
 
     private val kakaoLocalApiService: KakaoLocalApiService by lazy {
