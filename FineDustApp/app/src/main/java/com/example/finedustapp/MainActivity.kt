@@ -5,7 +5,9 @@ import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.core.app.ActivityCompat
+import com.example.finedustapp.data.Repository
 import com.example.finedustapp.databinding.ActivityMainBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
@@ -81,7 +83,9 @@ class MainActivity : AppCompatActivity() {
             cancellationTokenSource!!.token
         ).addOnSuccessListener { location ->
            scope.launch {
-
+                val monitoringStation = Repository.getNearbyMonitoringStation(location.latitude, location.longitude)
+               Log.d("location1", monitoringStation?.stationName.toString())
+               binding.textView.text = monitoringStation?.stationName
            }
         }
     }
