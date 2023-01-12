@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.core.app.ActivityCompat
 import com.example.finedustapp.data.Repository
 import com.example.finedustapp.data.models.airquality.AirQualityResponse
@@ -88,14 +89,22 @@ class MainActivity : AppCompatActivity() {
             cancellationTokenSource!!.token
         ).addOnSuccessListener { location ->
            scope.launch {
-                val monitoringStation = Repository.getNearbyMonitoringStation(location.latitude, location.longitude)
-               Log.d("location1", monitoringStation?.stationName.toString())
+               binding.errorDescriptionTextView.visibility = View.GONE
+               try {
+                   val monitoringStation =
+                       Repository.getNearbyMonitoringStation(location.latitude, location.longitude)
+                   Log.d("location1", monitoringStation?.stationName.toString())
 
-               val measuredValue =
-                   Repository.getLatestAirQualityData(monitoringStation!!.stationName!!)
+                   val measuredValue =
+                       Repository.getLatestAirQualityData(monitoringStation!!.stationName!!)
 
-               displayAirQualityData(monitoringStation, measuredValue!!)
-
+                   displayAirQualityData(monitoringStation, measuredValue!!)
+               } catch (exception: Exception) {
+                    binding.errorDescriptionTextView.visibility = View.VISIBLE
+               } finally {
+                   binding.progressBar.visibility = View.GONE
+                   binding.refresh.isRefreshing = false
+               }
            }
         }
     }
