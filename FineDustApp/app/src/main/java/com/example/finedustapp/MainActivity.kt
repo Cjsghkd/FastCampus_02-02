@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        bindViews()
         initVariables()
         requestLocationPermissions()
     }
@@ -64,6 +65,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun bindViews() {
+        binding.refresh.setOnRefreshListener {
+            fetchAirQualityData()
+        }
+    }
+
     private fun initVariables() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
     }
@@ -88,28 +95,33 @@ class MainActivity : AppCompatActivity() {
             LocationRequest.PRIORITY_HIGH_ACCURACY,
             cancellationTokenSource!!.token
         ).addOnSuccessListener { location ->
-           scope.launch {
-               binding.errorDescriptionTextView.visibility = View.GONE
-               try {
-                   val monitoringStation =
-                       Repository.getNearbyMonitoringStation(location.latitude, location.longitude)
-                   Log.d("location1", monitoringStation?.stationName.toString())
+            scope.launch {
+                binding.errorDescriptionTextView.visibility = View.GONE
+                try {
+                    val monitoringStation =
+                        Repository.getNearbyMonitoringStation(location.latitude, location.longitude)
+                    Log.d("location1", monitoringStation?.stationName.toString())
 
-                   val measuredValue =
-                       Repository.getLatestAirQualityData(monitoringStation!!.stationName!!)
+                    val measuredValue =
+                        Repository.getLatestAirQualityData(monitoringStation!!.stationName!!)
 
-                   displayAirQualityData(monitoringStation, measuredValue!!)
-               } catch (exception: Exception) {
+                    displayAirQualityData(monitoringStation, measuredValue!!)
+                } catch (exception: Exception) {
                     binding.errorDescriptionTextView.visibility = View.VISIBLE
-               } finally {
-                   binding.progressBar.visibility = View.GONE
-                   binding.refresh.isRefreshing = false
-               }
-           }
+                    binding.contentsLayout.alpha = 0f
+                } finally {
+                    binding.progressBar.visibility = View.GONE
+                    binding.refresh.isRefreshing = false
+                }
+            }
         }
     }
 
-    fun  displayAirQualityData(monitoringStation: MonitoringStation,measuredValue: MeasuredValue) {
+    fun displayAirQualityData(monitoringStation: MonitoringStation, measuredValue: MeasuredValue) {
+        binding.contentsLayout.animate()
+            .alpha(1f)
+            .start()
+
         binding.measuringStationNameTextView.text = monitoringStation.stationName
         binding.measuringStationAddressTextView.text = monitoringStation.addr
 
