@@ -30,6 +30,10 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    testOptions {
+        unitTests.returnDefaultValues = true
+        unitTests.includeAndroidResources  = true
+    }
 }
 
 dependencies {
@@ -45,8 +49,14 @@ dependencies {
     testImplementation 'android.arch.core:core-testing:1.1.1'
 
     // Koin DI
-    implementation "io.insert-koin:koin-android:3.1.6"
-    testImplementation "io.insert-koin:koin-test:3.1.6"
+    implementation "io.insert-koin:koin-android:3.2.2"
+    testImplementation "io.insert-koin:koin-test:3.2.2"
+
+//    implementation "org.koin:koin-android:2.1.5"
+//    implementation "org.koin:koin-android-scope:2.1.5"
+//    implementation "org.koin:koin-android-viewmodel:2.1.5"
+//    implementation "org.koin:koin-android-ext:2.1.5"
+//    testImplementation "org.koin:koin-test:2.1.5"
 
     // Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1'
@@ -61,4 +71,6 @@ dependencies {
 
     // Lifecycle Extension
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+
+    testImplementation 'androidx.arch.core:core-testing:2.1.0'
 }
