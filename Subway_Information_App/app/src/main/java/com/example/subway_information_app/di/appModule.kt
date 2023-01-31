@@ -8,12 +8,16 @@ import com.example.subway_information_app.data.preference.PreferenceManager
 import com.example.subway_information_app.data.preference.SharedPreferenceManager
 import com.example.subway_information_app.data.repository.StationRepository
 import com.example.subway_information_app.data.repository.StationRepositoryImpl
+import com.example.subway_information_app.presentation.stations.StationsContract
+import com.example.subway_information_app.presentation.stations.StationsFragment
+import com.example.subway_information_app.presentation.stations.StationsPresenter
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
+
 
 val appModule = module {
 
@@ -32,4 +36,9 @@ val appModule = module {
 
     // Repository
     single<StationRepository> { StationRepositoryImpl(get(), get(), get(), get()) }
+
+    // Presentation
+    scope<StationsFragment> {
+        scoped<StationsContract.Presenter> { StationsPresenter(getSource(), get()) }
+    }
 }

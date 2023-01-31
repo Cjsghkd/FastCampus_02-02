@@ -1,9 +1,11 @@
 package com.example.subway_information_app.data.db.entity
 
 import androidx.room.Embedded
+import androidx.room.Entity
 import androidx.room.Junction
 import androidx.room.Relation
 
+@Entity
 data class StationWithSubwaysEntity(
     @Embedded val station: StationEntity,
     @Relation(
