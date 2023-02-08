@@ -57,7 +57,8 @@ dependencies {
     testImplementation "io.insert-koin:koin-test:3.2.2"
 
     // Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4'
 
     // Jetpack Navigation
     implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")

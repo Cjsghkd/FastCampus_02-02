@@ -2,7 +2,9 @@ package com.example.moviereviewapp
 
 import android.app.Application
 import com.example.moviereviewapp.di.appModule
-import com.example.moviereviewapp.utility.MovieDataGenerator
+import com.example.moviereviewapp.di.dataModule
+import com.example.moviereviewapp.di.domainModule
+import com.example.moviereviewapp.di.presenterModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -21,7 +23,7 @@ class MovieReviewApplication: Application() {
                 }
             )
             androidContext(this@MovieReviewApplication)
-            modules(appModule)
+            modules(appModule + dataModule + domainModule + presenterModule)
         }
 
 //        MovieDataGenerator().generate()
