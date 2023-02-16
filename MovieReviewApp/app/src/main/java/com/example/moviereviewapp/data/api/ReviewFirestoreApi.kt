@@ -19,11 +19,15 @@ class ReviewFirestoreApi(
             .map { it.toObject<Review>() }
             .firstOrNull()
 
-    override suspend fun getAllReviews(movieId: String): List<Review> =
+    override suspend fun getAllMovieReviews(movieId: String): List<Review> =
         firestore.collection("reviews")
             .whereEqualTo("movieId", movieId)
             .orderBy("createdAt", Query.Direction.DESCENDING)
             .get()
             .await()
             .map { it.toObject<Review>() }
+
+    override suspend fun getAllUserReviews(userId: String): List<Review> {
+        TODO("Not yet implemented")
+    }
 }

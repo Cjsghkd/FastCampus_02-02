@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviereviewapp.databinding.FragmentHomeBinding
@@ -71,6 +72,15 @@ class HomeFragment: ScopeFragment(), HomeContract.View {
             val gridLayoutManager = createGridLayoutManager()
             layoutManager = gridLayoutManager
             addItemDecoration(GridSpacingItemDecoration(gridLayoutManager.spanCount, dip(6f)))
+        }
+    }
+
+    private fun bindView() {
+        (binding?.recyclerView?.adapter as? HomeAdapter)?.apply {
+            onMovieClickListener = { movie ->
+                val action = HomeFragmentDirections.toMovieReviewsAction(movie)
+                findNavController().navigate(action)
+            }
         }
     }
 

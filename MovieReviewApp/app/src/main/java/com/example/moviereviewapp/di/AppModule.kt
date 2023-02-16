@@ -9,7 +9,7 @@ import com.example.moviereviewapp.data.repository.MovieRepositoryImpl
 import com.example.moviereviewapp.data.repository.ReviewRepository
 import com.example.moviereviewapp.data.repository.ReviewRepositoryImpl
 import com.example.moviereviewapp.domain.usecase.GetAllMoviesUseCase
-import com.example.moviereviewapp.domain.usecase.GetAllReviewsUseCase
+import com.example.moviereviewapp.domain.usecase.GetAllMovieReviewsUseCase
 import com.example.moviereviewapp.domain.usecase.GetRandomFeaturedMovieUseCase
 import com.example.moviereviewapp.presentation.home.HomeContract
 import com.example.moviereviewapp.presentation.home.HomeFragment
@@ -36,7 +36,7 @@ val dataModule = module {
 val domainModule = module {
     factory { GetRandomFeaturedMovieUseCase(get(), get()) }
     factory { GetAllMoviesUseCase(get()) }
-    factory { GetAllReviewsUseCase(get()) }
+    factory { GetAllMovieReviewsUseCase(get()) }
 }
 
 val presenterModule = module {
