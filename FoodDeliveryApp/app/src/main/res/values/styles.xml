@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <style name="Widget.FoodDeliveryApp.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="android:title">@null</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="Widget.FoodDeliveryApp.Toolbar.WithArrow" parent="Widget.FoodDeliveryApp.Toolbar">
+        <item name="android:navigationIcon">@drawable/ic_baseline_keyboard_arrow_left_24</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="Widget.FoodDeliveryApp.Toolbar.WithClose" parent="Widget.FoodDeliveryApp.Toolbar">
+        <item name="android:navigationIcon">@drawable/ic_baseline_close_24</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="Widget.FoodDeliveryApp.Chip" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipStrokeColor">@color/brown</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="chipBackgroundColor">@color/bg_chip</item>
+        <item name="android:textColor">@color/text_chip</item>
+        <item name="textStartPadding">8dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="chipIconTint">@color/icon_chip</item>
+        <item name="chipIconSize">12dp</item>
+        <item name="iconStartPadding">6dp</item>
+        <item name="chipEndPadding">2dp</item>
+    </style>
+
+</resources>
